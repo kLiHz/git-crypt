@@ -14,17 +14,17 @@ jobs:
       - name: Setup msys2
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: CLANG64
           update: true
           install: >-
             base-devel
             msys2-devel
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-openssl
+            mingw-w64-clang-x86_64-toolchain
+            mingw-w64-clang-x86_64-openssl
             openssl-devel
       - name: Build binary
         shell: msys2 {0}
-        run: make LDFLAGS="-static-libstdc++ -static -lcrypto -lws2_32"
+        run: make CXX="clang++" LDFLAGS="-stdlib=libc++ -static -lcrypto -lws2_32"
       - name: Upload release artifact
         uses: actions/upload-artifact@v3
         with:
